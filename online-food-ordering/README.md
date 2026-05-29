@@ -1,6 +1,6 @@
 # Online Food Ordering System
 
-A complete beginner-friendly **Online Food Ordering System** built with **PHP, MySQL, HTML, CSS, Bootstrap, JavaScript, and mysqli**. The project includes customer registration/login, admin role-based login, food management, a public menu, session cart, checkout, and order storage in MySQL.
+A complete beginner-friendly **Online Food Ordering System** built with **PHP, MySQL, HTML, CSS, Bootstrap, JavaScript, and mysqli**. The project includes customer registration/login, admin role-based login, food management, a protected customer menu after login, session cart, checkout, customer order history, and order storage in MySQL.
 
 ## 1. Project Features
 
@@ -10,10 +10,12 @@ A complete beginner-friendly **Online Food Ordering System** built with **PHP, M
 - Admin login with role-based authentication.
 - Protected admin dashboard.
 - Admin can add, edit, and delete food items.
-- Public food menu page.
+- Public landing page that explains the required register/login/order flow.
+- Protected food menu page shown only after login.
 - Add to cart using PHP sessions.
-- Cart page with remove item option.
+- Protected cart page with remove item option.
 - Protected checkout page for logged-in users only.
+- My Orders page where logged-in customers can view saved order details.
 - Saves orders and order items into MySQL database.
 - Uses `mysqli_connect()`, `mysqli_query()`, `mysqli_fetch_assoc()`, `mysqli_real_escape_string()`, and `mysqli_insert_id()`.
 - Responsive Bootstrap design.
@@ -48,6 +50,8 @@ online-food-ordering/
 ├── logout.php
 ├── cart.php
 ├── checkout.php
+├── orders.php
+├── DEPLOYMENT.md
 └── README.md
 ```
 
@@ -135,11 +139,12 @@ http://localhost/online-food-ordering/
 
 Public pages:
 
-- Menu: `http://localhost/online-food-ordering/index.php`
+- Home / protected menu: `http://localhost/online-food-ordering/index.php`
 - Register: `http://localhost/online-food-ordering/register.php`
 - Login: `http://localhost/online-food-ordering/login.php`
 - Cart: `http://localhost/online-food-ordering/cart.php`
 - Checkout: `http://localhost/online-food-ordering/checkout.php`
+- My Orders: `http://localhost/online-food-ordering/orders.php`
 
 Admin pages:
 
@@ -147,7 +152,21 @@ Admin pages:
 - Admin dashboard: `http://localhost/online-food-ordering/admin/dashboard.php`
 - Manage foods: `http://localhost/online-food-ordering/admin/foods.php`
 
-## 8. Default Admin Login Details
+## 8. Customer Flow
+
+The customer flow is intentionally simple:
+
+1. Visitor opens `index.php`.
+2. Visitor registers a customer account.
+3. Visitor logs in.
+4. After login, the food menu is shown.
+5. Customer adds food to cart.
+6. Customer opens cart and checks out.
+7. Customer can view saved orders on `orders.php`.
+
+Guests cannot add products to cart directly. If they try to order first, they are sent to login.
+
+## 9. Default Admin Login Details
 
 Use these credentials after importing the database:
 
@@ -158,7 +177,17 @@ Password: admin123
 
 The admin password is stored in the database using `password_hash()`.
 
-## 9. Common Errors and Fixes
+## 10. Deployment
+
+A deployment guide is included here:
+
+```text
+online-food-ordering/DEPLOYMENT.md
+```
+
+It explains cPanel/shared hosting and VPS/LAMP deployment steps.
+
+## 11. Common Errors and Fixes
 
 ### Error: Database connection failed
 
@@ -217,5 +246,6 @@ $password = "your_mysql_password";
 - This project is intentionally simple and uses procedural PHP.
 - It uses `mysqli`, not PDO.
 - The cart is stored in PHP sessions, so it exists until the browser session ends or checkout is completed.
+- The menu, cart, checkout, and orders flow is designed for logged-in customers.
 - Admin pages are protected by `includes/admin_auth.php`.
-- Checkout is protected by `includes/auth.php`.
+- Cart, checkout, and orders pages are protected by `includes/auth.php`.

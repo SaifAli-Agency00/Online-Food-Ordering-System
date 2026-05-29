@@ -3,6 +3,9 @@
 // Load only the database/session first so redirects can happen before any HTML output.
 require_once 'config/db.php';
 
+$flash_error = isset($_SESSION['flash_error']) ? $_SESSION['flash_error'] : null;
+unset($_SESSION['flash_error']);
+
 if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($conn, trim($_POST['email']));
     $plain_password = $_POST['password'];
@@ -34,6 +37,7 @@ if (isset($_POST['login'])) {
         <div class="card shadow-sm">
             <div class="card-body">
                 <h2 class="card-title mb-3">Login</h2>
+                <?php if ($flash_error): ?><div class="alert alert-warning"><?php echo $flash_error; ?></div><?php endif; ?>
                 <?php if (isset($error)): ?><div class="alert alert-danger"><?php echo $error; ?></div><?php endif; ?>
                 <form method="POST">
                     <div class="mb-3">

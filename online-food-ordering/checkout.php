@@ -46,7 +46,8 @@ if (isset($_POST['place_order'])) {
 <h2 class="mb-3">Checkout</h2>
 <?php if (isset($success)): ?>
     <div class="alert alert-success"><?php echo $success; ?></div>
-    <a href="index.php" class="btn btn-danger">Back to Menu</a>
+    <a href="orders.php" class="btn btn-danger">View My Orders</a>
+    <a href="index.php" class="btn btn-outline-danger">Back to Menu</a>
 <?php elseif (empty($cart)): ?>
     <div class="alert alert-info">Your cart is empty. <a href="index.php">Choose food first</a>.</div>
 <?php else: ?>
