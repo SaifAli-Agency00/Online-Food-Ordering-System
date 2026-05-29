@@ -4,11 +4,11 @@ A complete beginner-friendly **Online Food Ordering System** built with **PHP, M
 
 ## 1. Project Features
 
-- User registration with `password_hash()`.
-- User login with `password_verify()`.
+- User registration with name, email, phone, password confirmation, validation, and `password_hash()`.
+- User login with `password_verify()` and last login tracking.
 - Session-based authentication using `session_start()`.
 - Admin login with role-based authentication.
-- Protected admin dashboard.
+- Protected admin dashboard with customers, login times, orders, revenue, and food reports.
 - Admin can add, edit, and delete food items.
 - Public landing page that explains the required register/login/order flow.
 - Protected food menu page shown only after login.
@@ -16,6 +16,9 @@ A complete beginner-friendly **Online Food Ordering System** built with **PHP, M
 - Protected cart page with remove item option.
 - Protected checkout page for logged-in users only.
 - My Orders page where logged-in customers can view saved order details.
+- Profile page showing the exact registration data saved for the logged-in user.
+- Admin Users page showing new/old users, phone numbers, registration time, last login, order count, and total spent.
+- Admin Orders page showing all final orders, customer details, food items, and status update controls.
 - Saves orders and order items into MySQL database.
 - Uses `mysqli_connect()`, `mysqli_query()`, `mysqli_fetch_assoc()`, `mysqli_real_escape_string()`, and `mysqli_insert_id()`.
 - Responsive Bootstrap design.
@@ -29,7 +32,9 @@ online-food-ordering/
 ├── admin/
 │   ├── dashboard.php
 │   ├── foods.php
-│   └── login.php
+│   ├── login.php
+│   ├── orders.php
+│   └── users.php
 ├── assets/
 │   ├── css/
 │   │   └── style.css
@@ -51,6 +56,7 @@ online-food-ordering/
 ├── cart.php
 ├── checkout.php
 ├── orders.php
+├── profile.php
 ├── DEPLOYMENT.md
 └── README.md
 ```
@@ -145,24 +151,29 @@ Public pages:
 - Cart: `http://localhost/online-food-ordering/cart.php`
 - Checkout: `http://localhost/online-food-ordering/checkout.php`
 - My Orders: `http://localhost/online-food-ordering/orders.php`
+- Profile: `http://localhost/online-food-ordering/profile.php`
 
 Admin pages:
 
 - Admin login: `http://localhost/online-food-ordering/admin/login.php`
 - Admin dashboard: `http://localhost/online-food-ordering/admin/dashboard.php`
 - Manage foods: `http://localhost/online-food-ordering/admin/foods.php`
+- Manage orders: `http://localhost/online-food-ordering/admin/orders.php`
+- Registered users: `http://localhost/online-food-ordering/admin/users.php`
 
 ## 8. Customer Flow
 
 The customer flow is intentionally simple:
 
 1. Visitor opens `index.php`.
-2. Visitor registers a customer account.
-3. Visitor logs in.
+2. Visitor registers with name, email, phone number, password, and confirm password.
+3. Visitor logs in, and the system saves the last login time.
 4. After login, the food menu is shown.
 5. Customer adds food to cart.
-6. Customer opens cart and checks out.
-7. Customer can view saved orders on `orders.php`.
+6. Customer opens cart and goes to the final order confirmation screen.
+7. Customer confirms delivery address and phone number.
+8. Customer can view saved orders on `orders.php` and saved profile data on `profile.php`.
+9. Admin can see registered users, last login, order details, and update order status from the backend.
 
 Guests cannot add products to cart directly. If they try to order first, they are sent to login.
 
@@ -176,6 +187,16 @@ Password: admin123
 ```
 
 The admin password is stored in the database using `password_hash()`.
+
+Sample customer accounts are also included for demo/testing:
+
+```text
+Email: ayesha@example.com
+Password: user123
+
+Email: ali@example.com
+Password: user123
+```
 
 ## 10. Deployment
 
@@ -234,6 +255,12 @@ $password = "your_mysql_password";
 - Use the exact credentials:
   - Email: `admin@foodorder.com`
   - Password: `admin123`
+
+### Error: Unknown column `phone` or `last_login`
+
+**Cause:** You are using an old database import from before the user profile upgrade.
+
+**Fix:** Re-import `online-food-ordering/sql/database.sql`. It recreates the database with the latest columns.
 
 ### Bootstrap design is not loading
 

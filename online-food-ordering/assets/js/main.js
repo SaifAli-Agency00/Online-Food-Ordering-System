@@ -15,3 +15,20 @@ document.querySelectorAll('.remove-link').forEach(function (link) {
         }
     });
 });
+
+// Beginner-friendly real-time validation hints for registration form.
+var registerForm = document.getElementById('registerForm');
+if (registerForm) {
+    registerForm.addEventListener('input', function () {
+        var password = registerForm.querySelector('input[name="password"]');
+        var confirmPassword = registerForm.querySelector('input[name="confirm_password"]');
+
+        if (password && confirmPassword && confirmPassword.value !== '') {
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.setCustomValidity('Passwords do not match');
+            } else {
+                confirmPassword.setCustomValidity('');
+            }
+        }
+    });
+}

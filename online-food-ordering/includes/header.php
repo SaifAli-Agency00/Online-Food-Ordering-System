@@ -35,6 +35,7 @@ $is_logged_in = isset($_SESSION['user_id']);
                     <li class="nav-item"><a class="nav-link" href="index.php">Menu</a></li>
                     <li class="nav-item"><a class="nav-link" href="cart.php">Cart (<?php echo $cart_count; ?>)</a></li>
                     <li class="nav-item"><a class="nav-link" href="orders.php">My Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
                     <?php if ($_SESSION['user_role'] === 'admin'): ?>
                         <li class="nav-item"><a class="nav-link" href="admin/dashboard.php">Admin</a></li>
                     <?php endif; ?>

@@ -72,9 +72,22 @@ if ($is_logged_in) {
 <?php endif; ?>
 
 <?php if (!$is_logged_in): ?>
-    <section class="hero rounded text-center text-white p-5 mb-4">
-        <h1 class="display-5 fw-bold">Online Food Ordering Made Simple</h1>
-        <p class="lead mb-0">Create an account, login, choose food, add to cart, and place your order.</p>
+    <section class="hero luxury-hero rounded-4 text-white p-5 mb-4 shadow-lg">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <p class="text-uppercase small fw-bold mb-2">Premium University Project</p>
+                <h1 class="display-4 fw-bold">Luxury Online Food Ordering</h1>
+                <p class="lead mb-4">Register, login, select your favorite food, review cart, confirm final order, and track everything from your profile.</p>
+                <a href="register.php" class="btn btn-light btn-lg text-danger me-2">Register Now</a>
+                <a href="login.php" class="btn btn-outline-light btn-lg">Login</a>
+            </div>
+            <div class="col-lg-4">
+                <div class="glass-box p-4 rounded-4">
+                    <h4>Clear Flow</h4>
+                    <p class="mb-0">No confusion: guest sees steps, customer sees menu, admin sees full backend reports.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <div class="row g-4 align-items-stretch">
@@ -103,16 +116,21 @@ if ($is_logged_in) {
                 <div class="card-body text-center">
                     <div class="step-number">3</div>
                     <h4>Order Food</h4>
-                    <p>After login, add foods to your cart and checkout with delivery details.</p>
+                    <p>After login, add foods to your cart and review the final order screen.</p>
                     <a href="login.php" class="btn btn-outline-danger">Start Ordering</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="alert alert-light border mt-4 shadow-sm">
+        <strong>Admin can track everything:</strong> registered users, phone numbers, login times, final orders, order items and order status are all visible in the backend.
+    </div>
 <?php else: ?>
-    <section class="hero rounded text-center text-white p-5 mb-4">
+    <section class="hero rounded-4 text-center text-white p-5 mb-4 shadow-lg">
+        <p class="text-uppercase small fw-bold mb-2">Step 3 of 4</p>
         <h1 class="display-5 fw-bold">Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</h1>
-        <p class="lead mb-0">Select your favorite foods and add them to your cart.</p>
+        <p class="lead mb-0">Select your favorite foods, add them to cart, then review the final order screen.</p>
     </section>
 
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">

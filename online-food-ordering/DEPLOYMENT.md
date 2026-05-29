@@ -46,3 +46,16 @@ $database = "cpaneluser_food_ordering";
 - If your hosting provider uses a different database host, replace `localhost` in `config/db.php`.
 - If Bootstrap CDN files do not load, download Bootstrap and link local files from the `assets` folder.
 - The project is intentionally procedural and beginner-friendly. For production, add stronger validation, CSRF protection, prepared statements, and HTTPS.
+
+
+## Demo Flow for Presentation
+
+1. Open the homepage and show the premium step-by-step guest screen.
+2. Register a new customer with name, email, phone, password and confirm password.
+3. Login as that customer and show that the menu appears only after login.
+4. Add food to cart, review the cart, and open checkout.
+5. Confirm the final order using delivery address and phone.
+6. Open My Orders and Profile to show saved customer data.
+7. Login as admin and show Dashboard, Users, Orders and Foods pages.
+
+This flow is designed for a clear university assignment presentation.
