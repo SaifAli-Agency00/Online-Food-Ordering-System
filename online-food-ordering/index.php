@@ -14,6 +14,11 @@ if (isset($_POST['add_to_cart']) && !$is_logged_in) {
 
 // Add a selected food item to the session cart only for logged-in users.
 if (isset($_POST['add_to_cart']) && $is_logged_in) {
+// Public menu page. Everyone can view food items and add them to the cart.
+require_once 'includes/header.php';
+
+// Add a selected food item to the session cart.
+if (isset($_POST['add_to_cart'])) {
     $food_id = mysqli_real_escape_string($conn, $_POST['food_id']);
     $quantity = (int) $_POST['quantity'];
 
@@ -157,5 +162,46 @@ if ($is_logged_in) {
         <?php endwhile; ?>
     </div>
 <?php endif; ?>
+        $success = "Food added to cart successfully.";
+    } else {
+        $error = "Food item is not available.";
+    }
+}
+
+// Get all available foods for the menu.
+$foods_result = mysqli_query($conn, "SELECT * FROM foods WHERE status = 'available' ORDER BY id DESC");
+?>
+
+<section class="hero rounded text-center text-white p-5 mb-4">
+    <h1 class="display-5 fw-bold">Order Delicious Food Online</h1>
+    <p class="lead mb-0">Choose your favorite meals and checkout in a few simple steps.</p>
+</section>
+
+<?php if (isset($success)): ?>
+    <div class="alert alert-success"><?php echo $success; ?></div>
+<?php endif; ?>
+<?php if (isset($error)): ?>
+    <div class="alert alert-danger"><?php echo $error; ?></div>
+<?php endif; ?>
+
+<h2 class="mb-3">Food Menu</h2>
+<div class="row g-4">
+    <?php while ($food = mysqli_fetch_assoc($foods_result)): ?>
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm food-card">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title"><?php echo htmlspecialchars($food['name']); ?></h5>
+                    <p class="card-text text-muted flex-grow-1"><?php echo htmlspecialchars($food['description']); ?></p>
+                    <p class="fw-bold text-danger fs-5">$<?php echo number_format($food['price'], 2); ?></p>
+                    <form method="POST" class="d-flex gap-2">
+                        <input type="hidden" name="food_id" value="<?php echo $food['id']; ?>">
+                        <input type="number" name="quantity" value="1" min="1" class="form-control quantity-input">
+                        <button type="submit" name="add_to_cart" class="btn btn-danger">Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php endwhile; ?>
+</div>
 
 <?php require_once 'includes/footer.php'; ?>

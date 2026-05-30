@@ -21,6 +21,9 @@ if (isset($_POST['login'])) {
         $admin_id = mysqli_real_escape_string($conn, $admin['id']);
         mysqli_query($conn, "UPDATE users SET last_login = NOW() WHERE id = '$admin_id'");
 
+        $_SESSION['user_id'] = $admin['id'];
+        $_SESSION['user_name'] = $admin['name'];
+        $_SESSION['user_role'] = $admin['role'];
         header("Location: dashboard.php");
         exit();
     } else {

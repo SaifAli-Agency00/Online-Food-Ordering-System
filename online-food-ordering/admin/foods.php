@@ -21,6 +21,11 @@ if (isset($_GET['delete'])) {
         $_SESSION['admin_success'] = "Food deleted successfully.";
     }
 
+
+// Delete a food item by id.
+if (isset($_GET['delete'])) {
+    $delete_id = mysqli_real_escape_string($conn, $_GET['delete']);
+    mysqli_query($conn, "DELETE FROM foods WHERE id = '$delete_id'");
     header("Location: foods.php");
     exit();
 }
@@ -56,6 +61,14 @@ if (isset($_POST['save_food'])) {
 
     header("Location: foods.php");
     exit();
+    if (isset($_POST['food_id']) && $_POST['food_id'] !== '') {
+        $food_id = mysqli_real_escape_string($conn, $_POST['food_id']);
+        mysqli_query($conn, "UPDATE foods SET name = '$name', description = '$description', price = '$price', status = '$status' WHERE id = '$food_id'");
+        $success = "Food updated successfully.";
+    } else {
+        mysqli_query($conn, "INSERT INTO foods (name, description, price, status) VALUES ('$name', '$description', '$price', '$status')");
+        $success = "Food added successfully.";
+    }
 }
 
 $foods = mysqli_query($conn, "SELECT * FROM foods ORDER BY id DESC");
@@ -70,6 +83,7 @@ $foods = mysqli_query($conn, "SELECT * FROM foods ORDER BY id DESC");
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body class="admin-page">
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="dashboard.php">Admin Panel</a>
@@ -78,6 +92,7 @@ $foods = mysqli_query($conn, "SELECT * FROM foods ORDER BY id DESC");
             <a class="nav-link active" href="foods.php">Foods</a>
             <a class="nav-link" href="orders.php">Orders</a>
             <a class="nav-link" href="users.php">Users</a>
+            <a class="nav-link active" href="foods.php">Manage Foods</a>
             <a class="nav-link" href="../index.php">View Site</a>
             <a class="nav-link" href="../logout.php">Logout</a>
         </div>
@@ -87,6 +102,7 @@ $foods = mysqli_query($conn, "SELECT * FROM foods ORDER BY id DESC");
     <h1 class="mb-4">Manage Foods</h1>
     <?php if ($success): ?><div class="alert alert-success"><?php echo $success; ?></div><?php endif; ?>
     <?php if ($error): ?><div class="alert alert-warning"><?php echo $error; ?></div><?php endif; ?>
+    <?php if (isset($success)): ?><div class="alert alert-success"><?php echo $success; ?></div><?php endif; ?>
     <div class="row g-4">
         <div class="col-lg-4">
             <div class="card shadow-sm">

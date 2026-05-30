@@ -20,6 +20,20 @@ A complete beginner-friendly **Online Food Ordering System** built with **PHP, M
 - Admin Users page showing new/old users, phone numbers, registration time, last login, order count, and total spent.
 - Admin Orders page showing all final orders, customer details, food items, and status update controls.
 - Admin food deletion protects order history by marking foods unavailable when already ordered.
+A complete beginner-friendly **Online Food Ordering System** built with **PHP, MySQL, HTML, CSS, Bootstrap, JavaScript, and mysqli**. The project includes customer registration/login, admin role-based login, food management, a public menu, session cart, checkout, and order storage in MySQL.
+
+## 1. Project Features
+
+- User registration with `password_hash()`.
+- User login with `password_verify()`.
+- Session-based authentication using `session_start()`.
+- Admin login with role-based authentication.
+- Protected admin dashboard.
+- Admin can add, edit, and delete food items.
+- Public food menu page.
+- Add to cart using PHP sessions.
+- Cart page with remove item option.
+- Protected checkout page for logged-in users only.
 - Saves orders and order items into MySQL database.
 - Uses `mysqli_connect()`, `mysqli_query()`, `mysqli_fetch_assoc()`, `mysqli_real_escape_string()`, and `mysqli_insert_id()`.
 - Responsive Bootstrap design.
@@ -36,6 +50,7 @@ online-food-ordering/
 │   ├── login.php
 │   ├── orders.php
 │   └── users.php
+│   └── login.php
 ├── assets/
 │   ├── css/
 │   │   └── style.css
@@ -56,9 +71,6 @@ online-food-ordering/
 ├── logout.php
 ├── cart.php
 ├── checkout.php
-├── orders.php
-├── profile.php
-├── DEPLOYMENT.md
 └── README.md
 ```
 
@@ -90,9 +102,7 @@ These steps also work similarly for WAMP, MAMP, or LAMP.
    ```
 
 6. Click **Go**.
-7. phpMyAdmin will recreate the database named `food_ordering_system` and add all tables, the default admin account, and sample foods.
-
-> Warning: `database.sql` starts with `DROP DATABASE IF EXISTS food_ordering_system;` so a fresh import replaces any existing `food_ordering_system` database data.
+7. phpMyAdmin will create the database named `food_ordering_system` and add all tables, the default admin account, and sample foods.
 
 ## 5. SQL File Location
 
@@ -102,7 +112,7 @@ The complete database file is located at:
 online-food-ordering/sql/database.sql
 ```
 
-This file recreates the `food_ordering_system` database and contains:
+This file contains:
 
 - `users` table
 - `foods` table
@@ -147,6 +157,7 @@ http://localhost/online-food-ordering/
 Public pages:
 
 - Home / protected menu: `http://localhost/online-food-ordering/index.php`
+- Menu: `http://localhost/online-food-ordering/index.php`
 - Register: `http://localhost/online-food-ordering/register.php`
 - Login: `http://localhost/online-food-ordering/login.php`
 - Cart: `http://localhost/online-food-ordering/cart.php`
@@ -179,6 +190,8 @@ The customer flow is intentionally simple:
 Guests cannot add products to cart directly. If they try to order first, they are sent to login.
 
 ## 9. Default Admin Login Details
+
+## 8. Default Admin Login Details
 
 Use these credentials after importing the database:
 
@@ -215,6 +228,7 @@ online-food-ordering/DEPLOYMENT.md
 It explains cPanel/shared hosting and VPS/LAMP deployment steps.
 
 ## 11. Common Errors and Fixes
+## 9. Common Errors and Fixes
 
 ### Error: Database connection failed
 
@@ -282,3 +296,5 @@ $password = "your_mysql_password";
 - The menu, cart, checkout, and orders flow is designed for logged-in customers.
 - Admin pages are protected by `includes/admin_auth.php`.
 - Cart, checkout, and orders pages are protected by `includes/auth.php`.
+- Admin pages are protected by `includes/admin_auth.php`.
+- Checkout is protected by `includes/auth.php`.

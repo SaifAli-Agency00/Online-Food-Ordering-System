@@ -45,6 +45,17 @@ $is_logged_in = isset($_SESSION['user_id']);
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
                     <li class="nav-item"><a class="nav-link btn btn-light text-danger px-3 ms-lg-2" href="register.php">Register</a></li>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.php">Menu</a></li>
+                <li class="nav-item"><a class="nav-link" href="cart.php">Cart (<?php echo $cart_count; ?>)</a></li>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <?php if ($_SESSION['user_role'] === 'admin'): ?>
+                        <li class="nav-item"><a class="nav-link" href="admin/dashboard.php">Admin</a></li>
+                    <?php endif; ?>
+                    <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+                <?php else: ?>
+                    <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register.php">Register</a></li>
                 <?php endif; ?>
             </ul>
         </div>

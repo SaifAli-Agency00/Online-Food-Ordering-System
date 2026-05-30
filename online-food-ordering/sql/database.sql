@@ -3,6 +3,7 @@
 
 DROP DATABASE IF EXISTS food_ordering_system;
 CREATE DATABASE food_ordering_system;
+CREATE DATABASE IF NOT EXISTS food_ordering_system;
 USE food_ordering_system;
 
 -- Users table stores both customers and admins.
@@ -14,6 +15,8 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
     last_login DATETIME DEFAULT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -49,6 +52,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     FOREIGN KEY (food_id) REFERENCES foods(id) ON DELETE RESTRICT
+    FOREIGN KEY (food_id) REFERENCES foods(id) ON DELETE CASCADE
 );
 
 -- Default admin account.
@@ -58,6 +62,8 @@ INSERT INTO users (name, email, phone, password, role, last_login) VALUES
 ('Admin User', 'admin@foodorder.com', '+10000000000', '$2y$12$biSGfoRto/MYSoMNG54LceZtzCn8VkIfDQ9PQcFNTkUWKOefvxfdG', 'admin', NULL),
 ('Ayesha Khan', 'ayesha@example.com', '+1555010101', '$2y$12$qIvH8HNPanamHVAHlbG/.u0J9DtCuK.vXAJBNPdht787W9BMRFHfi', 'user', NULL),
 ('Ali Raza', 'ali@example.com', '+1555020202', '$2y$12$qIvH8HNPanamHVAHlbG/.u0J9DtCuK.vXAJBNPdht787W9BMRFHfi', 'user', NULL);
+INSERT INTO users (name, email, password, role) VALUES
+('Admin User', 'admin@foodorder.com', '$2y$12$biSGfoRto/MYSoMNG54LceZtzCn8VkIfDQ9PQcFNTkUWKOefvxfdG', 'admin');
 
 -- Sample food records for the public menu.
 INSERT INTO foods (name, description, price, status) VALUES
