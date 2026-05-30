@@ -2,11 +2,24 @@
 // Admin order management page shows every order with customer details and order items.
 require_once '../includes/admin_auth.php';
 
+$success = isset($_SESSION['admin_success']) ? $_SESSION['admin_success'] : null;
+$error = isset($_SESSION['admin_error']) ? $_SESSION['admin_error'] : null;
+unset($_SESSION['admin_success'], $_SESSION['admin_error']);
+
 if (isset($_POST['update_status'])) {
     $order_id = mysqli_real_escape_string($conn, $_POST['order_id']);
     $status = mysqli_real_escape_string($conn, $_POST['status']);
-    mysqli_query($conn, "UPDATE orders SET status = '$status' WHERE id = '$order_id'");
-    $success = "Order status updated successfully.";
+    $allowed_statuses = ['pending', 'confirmed', 'delivered', 'cancelled'];
+
+    if (in_array($status, $allowed_statuses)) {
+        mysqli_query($conn, "UPDATE orders SET status = '$status' WHERE id = '$order_id'");
+        $_SESSION['admin_success'] = "Order status updated successfully.";
+    } else {
+        $_SESSION['admin_error'] = "Invalid order status selected.";
+    }
+
+    header("Location: orders.php");
+    exit();
 }
 
 $orders = mysqli_query($conn, "SELECT orders.*, users.name, users.email, users.phone AS user_phone FROM orders INNER JOIN users ON orders.user_id = users.id ORDER BY orders.id DESC");
@@ -38,7 +51,8 @@ $orders = mysqli_query($conn, "SELECT orders.*, users.name, users.email, users.p
         <h1 class="mb-1">Manage Orders</h1>
         <p class="mb-0">Review final orders, customer contact data, delivery address, order items, and update status.</p>
     </div>
-    <?php if (isset($success)): ?><div class="alert alert-success"><?php echo $success; ?></div><?php endif; ?>
+    <?php if ($success): ?><div class="alert alert-success"><?php echo $success; ?></div><?php endif; ?>
+    <?php if ($error): ?><div class="alert alert-warning"><?php echo $error; ?></div><?php endif; ?>
 
     <?php while ($order = mysqli_fetch_assoc($orders)): ?>
         <div class="card shadow-sm border-0 mb-4">

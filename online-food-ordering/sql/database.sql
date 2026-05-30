@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     price DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (food_id) REFERENCES foods(id) ON DELETE CASCADE
+    FOREIGN KEY (food_id) REFERENCES foods(id) ON DELETE RESTRICT
 );
 
 -- Default admin account.

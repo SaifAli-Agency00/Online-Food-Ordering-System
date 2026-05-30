@@ -19,6 +19,7 @@ A complete beginner-friendly **Online Food Ordering System** built with **PHP, M
 - Profile page showing the exact registration data saved for the logged-in user.
 - Admin Users page showing new/old users, phone numbers, registration time, last login, order count, and total spent.
 - Admin Orders page showing all final orders, customer details, food items, and status update controls.
+- Admin food deletion protects order history by marking foods unavailable when already ordered.
 - Saves orders and order items into MySQL database.
 - Uses `mysqli_connect()`, `mysqli_query()`, `mysqli_fetch_assoc()`, `mysqli_real_escape_string()`, and `mysqli_insert_id()`.
 - Responsive Bootstrap design.

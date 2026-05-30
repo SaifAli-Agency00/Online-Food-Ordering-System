@@ -10,9 +10,17 @@ if (isset($_POST['login'])) {
     $admin = mysqli_fetch_assoc($admin_query);
 
     if ($admin && password_verify($plain_password, $admin['password'])) {
+        // Regenerate the session id after admin login to reduce session fixation risk.
+        session_regenerate_id(true);
+
         $_SESSION['user_id'] = $admin['id'];
         $_SESSION['user_name'] = $admin['name'];
         $_SESSION['user_role'] = $admin['role'];
+        $_SESSION['user_phone'] = $admin['phone'];
+
+        $admin_id = mysqli_real_escape_string($conn, $admin['id']);
+        mysqli_query($conn, "UPDATE users SET last_login = NOW() WHERE id = '$admin_id'");
+
         header("Location: dashboard.php");
         exit();
     } else {

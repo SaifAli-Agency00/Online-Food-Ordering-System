@@ -3,11 +3,24 @@
 require_once '../includes/admin_auth.php';
 
 $edit_food = null;
+$success = isset($_SESSION['admin_success']) ? $_SESSION['admin_success'] : null;
+$error = isset($_SESSION['admin_error']) ? $_SESSION['admin_error'] : null;
+unset($_SESSION['admin_success'], $_SESSION['admin_error']);
 
-// Delete a food item by id.
+// Delete a food item by id. If it already belongs to orders, keep history safe.
 if (isset($_GET['delete'])) {
     $delete_id = mysqli_real_escape_string($conn, $_GET['delete']);
-    mysqli_query($conn, "DELETE FROM foods WHERE id = '$delete_id'");
+    $used_result = mysqli_query($conn, "SELECT id FROM order_items WHERE food_id = '$delete_id' LIMIT 1");
+
+    if (mysqli_fetch_assoc($used_result)) {
+        // Do not delete foods that are part of previous orders; hide them instead.
+        mysqli_query($conn, "UPDATE foods SET status = 'unavailable' WHERE id = '$delete_id'");
+        $_SESSION['admin_error'] = "This food is used in order history, so it was marked unavailable instead of deleted.";
+    } else {
+        mysqli_query($conn, "DELETE FROM foods WHERE id = '$delete_id'");
+        $_SESSION['admin_success'] = "Food deleted successfully.";
+    }
+
     header("Location: foods.php");
     exit();
 }
@@ -26,14 +39,23 @@ if (isset($_POST['save_food'])) {
     $price = mysqli_real_escape_string($conn, trim($_POST['price']));
     $status = mysqli_real_escape_string($conn, $_POST['status']);
 
-    if (isset($_POST['food_id']) && $_POST['food_id'] !== '') {
+    if ($name === '' || $description === '' || $price === '') {
+        $_SESSION['admin_error'] = "Name, description, and price are required.";
+    } elseif (!is_numeric($price) || $price <= 0) {
+        $_SESSION['admin_error'] = "Price must be greater than 0.";
+    } elseif ($status !== 'available' && $status !== 'unavailable') {
+        $_SESSION['admin_error'] = "Invalid food status selected.";
+    } elseif (isset($_POST['food_id']) && $_POST['food_id'] !== '') {
         $food_id = mysqli_real_escape_string($conn, $_POST['food_id']);
         mysqli_query($conn, "UPDATE foods SET name = '$name', description = '$description', price = '$price', status = '$status' WHERE id = '$food_id'");
-        $success = "Food updated successfully.";
+        $_SESSION['admin_success'] = "Food updated successfully.";
     } else {
         mysqli_query($conn, "INSERT INTO foods (name, description, price, status) VALUES ('$name', '$description', '$price', '$status')");
-        $success = "Food added successfully.";
+        $_SESSION['admin_success'] = "Food added successfully.";
     }
+
+    header("Location: foods.php");
+    exit();
 }
 
 $foods = mysqli_query($conn, "SELECT * FROM foods ORDER BY id DESC");
@@ -63,7 +85,8 @@ $foods = mysqli_query($conn, "SELECT * FROM foods ORDER BY id DESC");
 </nav>
 <div class="container py-4">
     <h1 class="mb-4">Manage Foods</h1>
-    <?php if (isset($success)): ?><div class="alert alert-success"><?php echo $success; ?></div><?php endif; ?>
+    <?php if ($success): ?><div class="alert alert-success"><?php echo $success; ?></div><?php endif; ?>
+    <?php if ($error): ?><div class="alert alert-warning"><?php echo $error; ?></div><?php endif; ?>
     <div class="row g-4">
         <div class="col-lg-4">
             <div class="card shadow-sm">

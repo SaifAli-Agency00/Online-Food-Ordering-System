@@ -15,6 +15,9 @@ if (isset($_POST['login'])) {
 
     // password_verify() checks the plain password against the saved hash.
     if ($user && password_verify($plain_password, $user['password'])) {
+        // Regenerate the session id after login to reduce session fixation risk.
+        session_regenerate_id(true);
+
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_role'] = $user['role'];
