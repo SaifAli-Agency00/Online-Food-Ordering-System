@@ -59,3 +59,15 @@ $database = "cpaneluser_food_ordering";
 7. Login as admin and show Dashboard, Users, Orders and Foods pages.
 
 This flow is designed for a clear university assignment presentation.
+
+## Important: GitHub Pages Cannot Run This App
+
+GitHub Pages only serves static files such as HTML, CSS, and JavaScript. It does **not** run PHP code and it does **not** provide a MySQL database.
+
+Use GitHub for source-code storage and collaboration, but deploy this project to one of these PHP/MySQL environments:
+
+- XAMPP/WAMP/MAMP/LAMP for local presentation
+- cPanel/shared hosting with PHP and MySQL
+- VPS server with Apache/Nginx, PHP, and MySQL/MariaDB
+
+A GitHub Actions workflow is included at `.github/workflows/php-lint.yml` to verify PHP syntax whenever code is pushed to GitHub.

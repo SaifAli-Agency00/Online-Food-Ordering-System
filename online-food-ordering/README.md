@@ -199,6 +199,11 @@ Email: ali@example.com
 Password: user123
 ```
 
+
+## GitHub Note
+
+If you upload this project to GitHub, use GitHub as the code repository only. GitHub Pages cannot run PHP or MySQL, so the live app must be opened through XAMPP/WAMP/MAMP/LAMP or deployed to PHP/MySQL hosting. A GitHub Actions workflow is included at `.github/workflows/php-lint.yml` to check PHP syntax on push and pull requests.
+
 ## 10. Deployment
 
 A deployment guide is included here:
