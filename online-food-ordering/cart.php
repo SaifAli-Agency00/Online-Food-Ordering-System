@@ -1,4 +1,6 @@
 <?php
+// Cart page is protected. A customer must login before viewing cart items.
+require_once 'includes/auth.php';
 // Cart page uses the session cart and allows item removal.
 require_once 'includes/header.php';
 
@@ -6,11 +8,22 @@ if (isset($_GET['remove'])) {
     $remove_id = $_GET['remove'];
     if (isset($_SESSION['cart'][$remove_id])) {
         unset($_SESSION['cart'][$remove_id]);
+        $_SESSION['flash_success'] = "Item removed from cart.";
     }
     header("Location: cart.php");
     exit();
 }
 
+$success = isset($_SESSION['flash_success']) ? $_SESSION['flash_success'] : null;
+unset($_SESSION['flash_success']);
+
+$cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+$total = 0;
+?>
+<?php require_once 'includes/header.php'; ?>
+
+<h2 class="mb-3">Your Cart</h2>
+<?php if ($success): ?><div class="alert alert-success"><?php echo $success; ?></div><?php endif; ?>
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 $total = 0;
 ?>

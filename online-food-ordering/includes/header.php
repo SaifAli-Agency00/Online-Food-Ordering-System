@@ -9,6 +9,9 @@ if (isset($_SESSION['cart'])) {
         $cart_count += $item['quantity'];
     }
 }
+
+// Check login once so the menu is easier to read.
+$is_logged_in = isset($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +30,21 @@ if (isset($_SESSION['cart'])) {
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <?php if ($is_logged_in): ?>
+                    <li class="nav-item"><a class="nav-link" href="index.php">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.php">Cart (<?php echo $cart_count; ?>)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="orders.php">My Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
+                    <?php if ($_SESSION['user_role'] === 'admin'): ?>
+                        <li class="nav-item"><a class="nav-link" href="admin/dashboard.php">Admin</a></li>
+                    <?php endif; ?>
+                    <li class="nav-item"><span class="navbar-text text-white small ms-lg-2">Hi, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+                <?php else: ?>
+                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-light text-danger px-3 ms-lg-2" href="register.php">Register</a></li>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="index.php">Menu</a></li>
                 <li class="nav-item"><a class="nav-link" href="cart.php">Cart (<?php echo $cart_count; ?>)</a></li>
